@@ -12,15 +12,22 @@ public class ConnectionManager {
 
     ArrayList<ManagedConnection> connections = new ArrayList<ManagedConnection>();
 
-    public ManagedConnection getConnection(String iPaddress, int port){
+    public Connection getConnection(String iPaddress, int port){
         ManagedConnection managedConnection = new ManagedConnection(null,null,0);
         if (connections.size() < connectionLimit){
             managedConnection = new ManagedConnection("HTTP",iPaddress,port);
         }
+        else
+        {
+            System.out.println("ERR:2132141 - Too many connections");
+            managedConnection = null;
+        }
+
         return managedConnection;
+
     }
 
-    public ManagedConnection getConnection(String ipAddress, String protocol, int port){
+    public Connection getConnection(String ipAddress, String protocol, int port){
         ManagedConnection managedConnection = new ManagedConnection(null,null,0);
         if (connections.size() < connectionLimit){
             managedConnection = new ManagedConnection(protocol,ipAddress,port);
@@ -28,7 +35,7 @@ public class ConnectionManager {
         return managedConnection;
     }
 
-    protected class ManagedConnection implements Connection{
+    private class ManagedConnection implements Connection{
 
         public ManagedConnection(String protocol, String iPAddress, int port) {
             this.protocol = protocol;
