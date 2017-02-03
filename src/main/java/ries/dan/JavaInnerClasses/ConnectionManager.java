@@ -1,5 +1,4 @@
 package ries.dan.JavaInnerClasses;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,46 +8,67 @@ import java.util.Collections;
  */
 public class ConnectionManager {
 
+    int connectionLimit = 3;
+
     ArrayList<ManagedConnection> connections = new ArrayList<ManagedConnection>();
 
     public ManagedConnection getConnection(String iPaddress, int port){
-        return null;
+        ManagedConnection managedConnection = new ManagedConnection(null,null,0);
+        if (connections.size() < connectionLimit){
+            managedConnection = new ManagedConnection("HTTP",iPaddress,port);
+        }
+        return managedConnection;
     }
 
-    public ManagedConnection getConnection(String ipAddress, String protocol){
-        return null;
+    public ManagedConnection getConnection(String ipAddress, String protocol, int port){
+        ManagedConnection managedConnection = new ManagedConnection(null,null,0);
+        if (connections.size() < connectionLimit){
+            managedConnection = new ManagedConnection(protocol,ipAddress,port);
+        }
+        return managedConnection;
     }
 
-    public class ManagedConnection implements Connection{
+    protected class ManagedConnection implements Connection{
 
         public ManagedConnection(String protocol, String iPAddress, int port) {
             this.protocol = protocol;
             this.iPAddress = iPAddress;
             this.port = port;
+            status = "OPEN";
         }
 
         String protocol;
         String iPAddress;
         int port;
+        String status;
+
 
         public String getIP() {
-            return null;
+            return this.iPAddress;
         }
 
         public int getPort() {
-            return 0;
+            return this.port;
         }
 
         public String getProtocol() {
-            return null;
+            return this.protocol;
         }
 
         public String connect() {
-            return null;
+            if (this.status.equals("CLOSED")){
+                System.out.println(this.status + "   " + this.port + "  " + this.iPAddress + "    " + this.protocol);
+                return null;
+            }
+            return "Connected to " + this.iPAddress + ":" + this.port + " via " + this.protocol;
+
         }
 
         public void close(){
-
+            this.status = "CLOSED";
+            this.protocol = "CLOSED";
+            this.iPAddress = "000.000.000.000";
+            this.port = (int)Math.ceil(Math.random() * 100);
         }
     }
 }

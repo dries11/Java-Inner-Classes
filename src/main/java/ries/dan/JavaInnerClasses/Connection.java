@@ -7,6 +7,11 @@ import java.io.IOException;
  */
 public interface Connection extends java.io.Closeable {
 
+    String protocol = "";
+    String iPAddress = "";
+    int port = 0;
+    String status = "";
+
     public String getIP();
 
     public int getPort();
