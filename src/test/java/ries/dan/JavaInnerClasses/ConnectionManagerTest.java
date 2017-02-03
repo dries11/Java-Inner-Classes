@@ -3,6 +3,7 @@ package ries.dan.JavaInnerClasses;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -63,6 +64,15 @@ public class ConnectionManagerTest {
         String expected = "Connected to 423.56.34.322:234 via HTTP";
         String actual = connection.connect();
         assertEquals("We expect to get that we are connected",expected,actual);
+    }
+
+    @Test
+    public void closeTest() throws IOException {
+        Connection connection = connectionManager.getConnection("127.0.0.1",678);
+        connection.close();
+        String expected  = "CLOSED";
+        String actual = connection.getProtocol();
+        assertEquals("We expect to get the connection status back ",expected,actual);
     }
 
 }
